@@ -1,4 +1,6 @@
 // модуль авторизации
+
+const bcrypt = require('bcryptjs')  // используется для создания пароля
 const User = require('../models/User') // подключение модели данных
 
 module.exports.login  = (req, res) => {
@@ -21,9 +23,12 @@ module.exports.register = async (req, res) => {
         })
     } else {
         // создаем
+
+        const salt = bcrypt.genSaltSync(10) //генерируем хэш для пароля
+        const pass = req.body.password
         const user = new User({
             email: req.body.email,
-            password: req.body.password
+            password: bcrypt.hashSync(pass, salt)  // шифруем пароль , введенный пароль хэшируется
         })
 
         try{
