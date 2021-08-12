@@ -1,0 +1,29 @@
+[33mcommit 80c3076261ced1c205236030ae42956b0a99cc74[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: ridus norman <C:\Users\User\AppData\Roaming\The Bat!>
+Date:   Mon Aug 2 16:40:25 2021 +0300
+
+    change in mongo connections
+
+[33mcommit b7beee83dc2a71ab78d0f1b8d4db871a5843e1ce[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: ridus norman <C:\Users\User\AppData\Roaming\The Bat!>
+Date:   Fri Jul 30 15:53:41 2021 +0300
+
+    add connect to mongo
+
+[33mcommit 30220a59c93b52012a302090dd18850ce96be571[m
+Author: ridus norman <C:\Users\User\AppData\Roaming\The Bat!>
+Date:   Thu Jul 29 15:37:49 2021 +0300
+
+    create connection to mongoBD
+
+[33mcommit 415e21105083872668667cc65db107f6308f1178[m
+Author: ridus norman <C:\Users\User\AppData\Roaming\The Bat!>
+Date:   Thu Jul 29 14:31:09 2021 +0300
+
+    create new gitignore
+
+[33mcommit 49820ef20bf98730ab7f6de2d299a9f911e430f5[m
+Author: ridus norman <C:\Users\User\AppData\Roaming\The Bat!>
+Date:   Thu Jul 29 14:26:08 2021 +0300
+
+    adding project

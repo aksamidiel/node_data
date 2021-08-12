@@ -3,13 +3,18 @@
 const bcrypt = require('bcryptjs')  // используется для создания пароля
 const User = require('../models/User') // подключение модели данных
 
-module.exports.login  = (req, res) => {
-    res.status(200).json({
-        login: {
-           email: req.body.email,
-           password: req.body.password  
-        }
-    })
+module.exports.login  =  async(req, res) => {
+    const person = await User.findOne({email: req.body.email})
+
+    if(person){
+        // проверка пароля
+        const passwordResult = bcrypt.compareSync(req.body.password, person.password) 
+    }else{
+        //пользователя нет, ошибка
+        res.status(404).json({
+            message: "Пользователь с таким email не обнаружен"
+        })
+    }
 }
 
 module.exports.register = async (req, res) => {
@@ -26,11 +31,12 @@ module.exports.register = async (req, res) => {
 
         const salt = bcrypt.genSaltSync(10) //генерируем хэш для пароля
         const pass = req.body.password
+        //локальное создание пользователя
         const user = new User({
-            email: req.body.email,
-            password: bcrypt.hashSync(pass, salt)  // шифруем пароль , введенный пароль хэшируется
+            email: req.body.email, // получаем из объекта request
+            password: bcrypt.hashSync(pass, salt)  // шифруем пароль с  помощью bcrypt, введенный пароль хэшируется
         })
-
+        //сохранение пользователя в БД через механизм asynch/await
         try{
             await user.save()
             res.status(201).json(user) // возврат объекта user с кодом 201 - create
