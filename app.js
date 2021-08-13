@@ -9,6 +9,8 @@ const positionRoutes = require('./routes/position') //импорт роута
 //const bodyParser = require("body-parser") //парсер устарел(по умолчанию уже есть в express)
 const mongoose = require('mongoose') //подключение базы данных
 const keys = require('./config/keys')
+const passport = require('passport') //установка пакета защиты роутов 
+
 
 const app = express()
 
@@ -16,10 +18,14 @@ const cors = require('cors') // для ответа клиенту с разны
 const morgan = require('morgan') // логирование запросов
 
 
+
+
 mongoose.connect(keys.mongoURI, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 .then(() => {console.log('MongoDB connected. ')})
 .catch(err =>{console.log(error)})
 
+app.use(passport.initialize()) // указывает объекту app что далее работа будет идти с объектом passport
+require('./middleware/passport')(passport)
 
 
 
