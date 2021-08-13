@@ -2,15 +2,32 @@
 
 const bcrypt = require('bcryptjs')  // используется для создания пароля
 const User = require('../models/User') // подключение модели данных
+const jwt = require('jsonwebtoken')  // подключение библиотеки генерации уникального токена исп при механизме авторизации
+const keys = require('../config/keys')
 
 module.exports.login  =  async(req, res) => {
     const person = await User.findOne({email: req.body.email})
 
     if(person){
         // проверка пароля
-        const passwordResult = bcrypt.compareSync(req.body.password, person.password) 
-    }else{
-        //пользователя нет, ошибка
+        const passwordResult = bcrypt.compareSync(req.body.password, person.password)// req.body.password то что получаем из запроса
+        if(passwordResult){
+            // пароли совпали
+            const token = jwt.sign({
+                email: person.email,
+                userId: person._id
+            }, keys.flag, {expiresIn: 60*60})
+            
+            res.status(200).json({
+                token: `Bearer ${token}`
+            })
+        } else {
+            res.status(401).json({
+                message: "Пароли не совпадают"
+            })
+        }
+    }else{                                                                            //               
+        //пользователя нет, error
         res.status(404).json({
             message: "Пользователь с таким email не обнаружен"
         })
@@ -24,7 +41,7 @@ module.exports.register = async (req, res) => {
     if (person){
         // существует -> ошибка
         res.status(409).json({
-            message: 'email has been occured, change new mail'
+            message: 'email занят, используйте другой'
         })
     } else {
         // создаем
